@@ -39,9 +39,9 @@ async function getGender(): Promise<NonNullable<FormFields['gender']>> {
 export default function MuiForm() {
  const router = useRouter();
  const searchParams = useSearchParams();
- const queryFirstname = searchParams.get('firstname');
- const queryLastname = searchParams.get('lastname');
- const queryAge = searchParams.get('age');
+ const queryFirstname = searchParams.get('firstname') || '';
+ const queryLastname = searchParams.get('lastname') || '';
+ const queryAge = searchParams.get('age') || null;
  //
  const {
   register,
@@ -86,12 +86,14 @@ export default function MuiForm() {
  }
  // set values to url
  useEffect(() => {
-  const url = new URL(window.location.href);
-  url.searchParams.set('firstname', firstnameValue);
-  url.searchParams.set('lastname', lastnameValue);
-  url.searchParams.set('age', ageValue || '');
-  url.searchParams.set('gender', genderValue?.value || '');
-  router.push(url.toString());
+  setTimeout(() => {
+   const url = new URL(window.location.href);
+   url.searchParams.set('firstname', firstnameValue);
+   url.searchParams.set('lastname', lastnameValue);
+   url.searchParams.set('age', ageValue || '');
+   url.searchParams.set('gender', genderValue?.value || '');
+   router.push(url.toString());
+  });
  }, [firstnameValue, lastnameValue, ageValue, genderValue, router]);
  // get values from url
  useEffect(() => {
